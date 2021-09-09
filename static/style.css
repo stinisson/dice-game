@@ -6,11 +6,69 @@ body {
 }
 
 .btn-info {
-    background-color: #862525; !important;
+    background-color: #862525 !important;
 }
 
 h1.title {
     font-weight: 900;
     font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: -0.011em;
+}
+
+
+.btn-dark, .btn-dark:hover, .btn-dark:active, .btn-dark:visited {
+    background-color: #7B84FF !important;
+    border-color: #4752e5 !important;
+}
+.btn-dark:focus {
+    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5) !important;
+}
+
+.btn-dark:active {
+    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5) !important;
+}
+
+.btn-outline-dark {
+    color: #10e3e3 !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border-color: #7cc !important;
+}
+
+
+.btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
+    background-color: #CB6CE6 !important;
+    border-color: #aa56c0 !important;
+}
+.btn-success:focus {
+    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5) !important;
+}
+
+.btn-success:active {
+    box-shadow: 0 0 0 .2rem rgba(91, 194, 194, 0.5) !important;
+}
+
+.btn-outline-success {
+    color: #9A65FF !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border-color: #9A65FF !important;
+}
+
+.alert-primary {
+    color: #4752e5 !important;
+    background-color: #d0d2fd !important;
+    border-color: #9b9ef6 !important;
+}
+
+.alertSeparator {
+    border-color: #9b9ef6 !important;
+}
+
+#gameProgressBar.bg-info {
+    background-color: #00C2CB !important;
+}
+
+#gameProgressBar.bg-success {
+    background-color: #7ED957 !important;
 }

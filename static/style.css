@@ -1,0 +1,16 @@
+body {
+  margin: 10px;
+  padding: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #444;
+}
+
+.btn-info {
+    background-color: #862525; !important;
+}
+
+h1.title {
+    font-weight: 900;
+    font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: -0.011em;
+}

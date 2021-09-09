@@ -11,7 +11,9 @@
 
 <div class="container">
     <div class="col text-center">
-        <h1 class="mt-5 mb-5 title">Dice Game</h1>
+        <img id="titleImage" class="img-fluid" src="/static/title.png" alt="Dice Game">
+        <hr>
+
 
         <img id="startImage" class="img-fluid" src="/static/dice/dice.png" alt="dice">
 
@@ -57,27 +59,27 @@
             <div id="gameInfo" class="col-4">
                 <div class="alert alert-primary" role="alert">
                     Number of dots
-                    <hr>
+                    <hr class="alertSeparator">
                     <div id="numDotsHistory">
-                        6<br>0
+                        6<br>0<br>
                     </div>
                 </div>
             </div>
             <div id="gameHistory" class="col-4">
                 <div class="alert alert-primary" role="alert">
                     Throw
-                    <hr>
+                    <hr class="alertSeparator">
                     <div id="throwHistory">
-                        2 | 5 | 4 | 6 | 2 | 3<br>1 | 1 | 1 | 1 | 1 | 1
+                        2 | 5 | 4 | 6 | 2 | 3<br>1 | 1 | 1 | 1 | 1 | 1<br>
                     </div>
                 </div>
             </div>
             <div id="gameGuess" class="col-4">
                 <div class="alert alert-primary" role="alert">
                     Your guess
-                    <hr>
+                    <hr class="alertSeparator">
                     <div id="guessHistory">
-                        42<br>6
+                        42<br>6<br>
                     </div>
                 </div>
             </div>

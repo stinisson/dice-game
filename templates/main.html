@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/style.css" rel="stylesheet" type="text/css">
+    <title>Dice Game</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<body>
+
+<div class="container">
+    <div class="col text-center">
+        <h1 class="mt-5 mb-5 title">Dice Game</h1>
+
+        <img id="startImage" class="img-fluid" src="/static/dice/dice.png" alt="dice">
+
+        <div id="diceThrows" class="row mb-5">
+            <div class="col-2">
+                <img class="img-fluid" src="/static/dice/green_2.png" alt="dice">
+            </div>
+            <div class="col-2">
+                <img class="img-fluid" src="/static/dice/pink_5.png" alt="dice">
+            </div>
+            <div class="col-2">
+                <img class="img-fluid" src="/static/dice/pink_4.png" alt="dice">
+            </div>
+            <div class="col-2">
+                <img class="img-fluid" src="/static/dice/white_6.png" alt="dice">
+            </div>
+            <div class="col-2">
+                <img class="img-fluid" src="/static/dice/green_2.png" alt="dice">
+            </div>
+            <div class="col-2">
+                <img class="img-fluid" src="/static/dice/green_3.png" alt="dice">
+            </div>
+        </div>
+
+
+        <div id="gameInstructions" class="alert alert-warning alert-dismissible fade show mt-5 mb-5" role="alert">
+            <strong>Dice, dice, baby dice!</strong> Roll the dice and try to come up with the rule by which the total
+            number of dots is calculated.
+            In order to finish the game you need to submit the correct answer for four consecutive dice rolls.
+            Use the notepad to make notes during the session and formulate your answer.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="row mt-5 mb-5">
+            <div class="col-12">
+                <button id="startGame" class="btn btn-success btn-block" type="submit">Start game</button>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div id="gameInfo" class="col-4">
+                <div class="alert alert-primary" role="alert">
+                    Number of dots
+                    <hr>
+                    <div id="numDotsHistory">
+                        6<br>0
+                    </div>
+                </div>
+            </div>
+            <div id="gameHistory" class="col-4">
+                <div class="alert alert-primary" role="alert">
+                    Throw
+                    <hr>
+                    <div id="throwHistory">
+                        2 | 5 | 4 | 6 | 2 | 3<br>1 | 1 | 1 | 1 | 1 | 1
+                    </div>
+                </div>
+            </div>
+            <div id="gameGuess" class="col-4">
+                <div class="alert alert-primary" role="alert">
+                    Your guess
+                    <hr>
+                    <div id="guessHistory">
+                        42<br>6
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameProgress" class="progress mb-4">
+            <div id="gameProgressBar" class="progress-bar bg-info" role="progressbar" style="width: 0%"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <div class="row mb-2">
+            <div id="gameSuccess" class="col-12">
+                <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p>You managed to crack the secret rule! Great job! Remember that sometimes the road is the goal.
+                        Stay curious, stay observant. </p>
+                    <hr>
+                    <h5 class="text-center"><strong>Solution: </strong>Multiply the number of dots by 2</h5>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div id="gameHint" class="col-12">
+                <div class="alert alert-info alert-dismissible fade show text-left" role="alert">
+                    <strong>Hint: </strong> The name of the game is Petal around the rose.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div id="gameNonSuccess" class="col-12">
+                <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                    <h4 class="alert-heading">Uh-uh! :(</h4>
+                    <p>Sometimes the road is more important than the goal and you probably learnt a lot.
+                        Remember to stay curious and question everything (especially this answer).</p>
+                    <hr>
+                    <h5 class="text-center"><strong>Solution: </strong>Multiply the number of dots by 2</h5>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameControl" class="row mb-5">
+
+            <div class="input-group col-6">
+                <input id="dotGuess" type="number" class="form-control" placeholder="Num. dots">
+                <div class="input-group-append">
+                    <button id="makeGuess" class="btn btn-dark btn-block" type="submit">Guess</button>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <button id="rollDice" class="btn btn-dark btn-block">Roll dice</button>
+            </div>
+
+            <div class="col-3">
+                <div class="btn-group btn-block">
+                    <button id="help" class="btn btn-dark btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button id="showHint" class="dropdown-item" type="button">Hint</button>
+                        <button id="showSolution" class="dropdown-item" type="button">Solution</button>
+                        <button id="showInstructions" class="dropdown-item" type="button">Instructions</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Notepad</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" spellcheck="false"></textarea>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="static/dice.js"></script>
+
+
+</body>
+</html>

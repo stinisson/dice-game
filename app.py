@@ -10,32 +10,29 @@ def main():
     return render_template('main.html')
 
 
-@app.route('/magic-rule')
-def translate_roll(roll):
-    # Take roll as a list and calculate the total number of dots according to the magic rule
-    # roll = [1, 2, 3, 4, 5, 6]
-
-    dotSum = 0
+def calculate_roll_value(roll):
+    """
+    Take roll as a list and calculate the total number of dots according to the secret rule.
+    """
+    dot_sum = 0
     for dice in roll:
         if dice == 5:
-            dotSum += 4
+            dot_sum += 4
         elif dice == 3:
-            dotSum += 2
-    return dotSum
+            dot_sum += 2
+    return dot_sum
 
 
 @app.route('/roll')
 def generate_roll():
-    roll = [random.randint(1, 6) for i in range(6)]
-    translation = translate_roll(roll)
-    return {"roll": roll, "translation": translation}
-
-
-@app.route('/main.png')
-def main_plot():
-    pass
-    # img = get_main_image()
-    # return send_file(img, mimetype='image/png', cache_timeout=0)
+    """ Simulate a dice roll. Return dice color and value for 6 dice together with the total number of dots
+        according to the secret rule. """
+    num_dice = 6
+    dice_colors = ["white", "blue", "pink"]
+    colors = [random.choice(dice_colors) for i in range(num_dice)]
+    roll = [random.randint(1, 6) for i in range(num_dice)]
+    calculation = calculate_roll_value(roll)
+    return {"roll": roll, "colors": colors, "calculation": calculation}
 
 
 if __name__ == '__main__':

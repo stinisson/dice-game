@@ -12,14 +12,14 @@
 <div class="container">
     <div class="col text-center">
         <img id="titleImage" class="img-fluid" src="/static/title.png" alt="Dice Game">
-        <hr>
 
+        <div class="fade_rule mb-5 mt-0 col-12"></div>
 
         <img id="startImage" class="img-fluid" src="/static/dice/dice.png" alt="dice">
 
-        <div id="diceThrows" class="row mb-5">
+        <div id="diceRolls" class="row mb-5">
             <div class="col-2">
-                <img class="img-fluid" src="/static/dice/green_2.png" alt="dice">
+                <img class="img-fluid" src="/static/dice/white_2.png" alt="dice">
             </div>
             <div class="col-2">
                 <img class="img-fluid" src="/static/dice/pink_5.png" alt="dice">
@@ -31,10 +31,10 @@
                 <img class="img-fluid" src="/static/dice/white_6.png" alt="dice">
             </div>
             <div class="col-2">
-                <img class="img-fluid" src="/static/dice/green_2.png" alt="dice">
+                <img class="img-fluid" src="/static/dice/white_2.png" alt="dice">
             </div>
             <div class="col-2">
-                <img class="img-fluid" src="/static/dice/green_3.png" alt="dice">
+                <img class="img-fluid" src="/static/dice/white_3.png" alt="dice">
             </div>
         </div>
 
@@ -44,7 +44,7 @@
             number of dots is calculated.
             In order to finish the game you need to submit the correct answer for four consecutive dice rolls.
             Use the notepad to make notes during the session and formulate your answer.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <button id="closeInstructions" type="button" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -60,27 +60,21 @@
                 <div class="alert alert-primary" role="alert">
                     Number of dots
                     <hr class="alertSeparator">
-                    <div id="numDotsHistory">
-                        6<br>0<br>
-                    </div>
+                    <div id="numDotsHistory"></div>
                 </div>
             </div>
             <div id="gameHistory" class="col-4">
                 <div class="alert alert-primary" role="alert">
-                    Throw
+                    Roll
                     <hr class="alertSeparator">
-                    <div id="throwHistory">
-                        2 | 5 | 4 | 6 | 2 | 3<br>1 | 1 | 1 | 1 | 1 | 1<br>
-                    </div>
+                    <div id="rollHistory"></div>
                 </div>
             </div>
             <div id="gameGuess" class="col-4">
                 <div class="alert alert-primary" role="alert">
                     Your guess
                     <hr class="alertSeparator">
-                    <div id="guessHistory">
-                        42<br>6<br>
-                    </div>
+                    <div id="guessHistory"></div>
                 </div>
             </div>
         </div>
@@ -98,7 +92,7 @@
                         Stay curious, stay observant. </p>
                     <hr>
                     <h5 class="text-center"><strong>Solution: </strong>Multiply the number of dots by 2</h5>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button id="closeGameSuccess" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -109,7 +103,7 @@
             <div id="gameHint" class="col-12">
                 <div class="alert alert-info alert-dismissible fade show text-left" role="alert">
                     <strong>Hint: </strong> The name of the game is Petal around the rose.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button id="closeHint" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -124,7 +118,7 @@
                         Remember to stay curious and question everything (especially this answer).</p>
                     <hr>
                     <h5 class="text-center"><strong>Solution: </strong>Multiply the number of dots by 2</h5>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button id="closeSolution" type="button" class="close"aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -151,6 +145,7 @@
                         <button id="showHint" class="dropdown-item" type="button">Hint</button>
                         <button id="showSolution" class="dropdown-item" type="button">Solution</button>
                         <button id="showInstructions" class="dropdown-item" type="button">Instructions</button>
+                        <button id="endGame" class="dropdown-item" type="button">End game</button>
                     </div>
                 </div>
             </div>
@@ -169,15 +164,15 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 <script src="static/dice.js"></script>
 
 

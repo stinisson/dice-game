@@ -1,10 +1,4 @@
-// dice.js contains the user state, no cookies are used
-// Callback for buttons
-// get guess value, ask server if answer is correct
-// update line colour on text input, disable guess button + change dice image
-
 document.answer = null;
-
 
 $(document).ready(function() {
     const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
@@ -36,7 +30,6 @@ function gameSetup() {
     $('#dotGuess').css("border-color", "#ced4da");
 }
 
-
 function emptyHistory() {
     const elementsToReset = ['#numDotsHistory', '#rollHistory', '#guessHistory'];
     elementsToReset.forEach(element => $(element).empty());
@@ -45,27 +38,21 @@ function emptyHistory() {
 }
 
 
-
 function roll() {
     $.get( "/roll", function(data) {})
     .done(function(data) {
-
-        console.log("Roll: " + data.roll);
-        console.log("Type: " + typeof(data.roll));
-        console.log("Answer: " + document.answer);
-        console.log("Type: " + typeof(document.answer));
-
-        document.answer = data.translation;
-
+        document.answer = data.calculation;
         const integerMapping = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"};
         let rollHistory = ""
+
         data.roll.forEach((dice, index) => {
+
             rollHistory += "<i class='fas fa-dice-" + integerMapping[dice] + " fa-lg'></i> ";
             const imageElement = "#dice-" + index;
-            const imageSrc = "/static/dice/white_" + dice + ".png";
+            const imageSrc = "/static/dice/" + data.colors[index] +"_" + dice + ".png";
             $(imageElement).attr("src", imageSrc);
 
-            if (dice%2 === 0) {
+            if (dice % 2 === 0) {
                 var $elie = $(imageElement), degree = 360, timer;
                 function rotateAntiClockwise() {
                     $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
@@ -88,15 +75,13 @@ function roll() {
                     }
                 } rotateClockwise();
             }
-
         });
 
         setTimeout(function() {
             $('#firstRollAnswer').text("✨  " + document.answer + "  ✨");
             $('#rollHistory').append(rollHistory + "<br>");
-            $('#numDotsHistory').append(data.translation + "<br>");
+            $('#numDotsHistory').append(data.calculation + "<br>");
         }, 2500);
-
 
     })
     .fail(function(data) {
@@ -121,7 +106,6 @@ $( "#rollDice" ).click(function() {
     $('#makeGuess').addClass('enabled');
     $("#makeGuess").text("Guess");
     $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
-
 });
 
 
@@ -136,30 +120,23 @@ $( "#makeGuess" ).click(function() {
     // Allow one guess per roll
     if ($(this).hasClass('disabled')) { return false; }
 
-    const answer = 42;
     let newProgress;
-
     let guess = parseInt($("#dotGuess").val());
-
     if (!isNaN(guess)) {
 
-        // Disable button after valid guess
-        $(this).addClass('disabled');
+        $(this).addClass('disabled'); // Disable button after valid guess
 
         $('#rollDice').removeClass('disabled');
         $('#rollDice').addClass('enabled');
         $('#dotGuess').prop('readonly', true);
-
         $('#rollDice').focus();
 
         $('#guessHistory').append(guess + "<br>");
-        // document.answer - every roll, save document.answer
         if (parseInt(guess) === document.answer) {
            let currentProgress = $('#gameProgressBar').attr('aria-valuenow');
            newProgress = parseInt(currentProgress) + 25;
            $('#gameProgressBar').attr('aria-valuenow', newProgress).css('width', newProgress+'%');
            $('#dotGuess').css("border-color", "#7ED957");
-
            $("#makeGuess").text("Correct");
            $('#makeGuess').attr('style', 'background-color: #7ED957 !important; border-color: #7ED957 !important;');
 
@@ -177,19 +154,16 @@ $( "#makeGuess" ).click(function() {
             $('#gameProgressBar').removeClass("bg-success");
             $('#gameProgressBar').addClass("bg-info");
             $('#dotGuess').css("border-color", "#FF5757");
-
             $("#makeGuess").text("Wrong");
             $('#makeGuess').attr('style', 'background-color: #FF5757 !important; border-color: #FF5757 !important');
-
         }
-
     } else {
+
         alert( "Submit an integer in the range (-∞, ∞)" );
         $('#dotGuess').css("border-color", "#FF5757");
         $('#dotGuess').focus();
     }
     $( "#dotGuess" ).val('');
-
 });
 
 function enableGameControl() {
@@ -218,13 +192,11 @@ function disableGameControl() {
     $('#help').removeClass('enabled');
 }
 
-
 function disableGuessControl() {
     $('#dotGuess').prop('readonly', true);
     $('#makeGuess').addClass('disabled');
     $('#makeGuess').removeClass('enabled');
 }
-
 
 function endGame() {
     gameSetup();
@@ -234,7 +206,6 @@ function endGame() {
     $("#makeGuess").text("Guess");
     $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
     $("#firstRollAnswer").text("");
-
 }
 
 // Show hint
@@ -279,7 +250,6 @@ $('#closeGameSuccess').click(function() {
 
 // Close first roll
 $('#closeFirstRoll').click(function() {
-
     $('#firstRoll').hide();
     enableGameControl();
     disableGuessControl();

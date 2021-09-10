@@ -13,12 +13,15 @@ function startGame() {
     emptyHistory();
     roll();
     $('#firstRoll').show();
+    const gameHistory = ['#gameInfo', '#gameHistory', '#gameGuess'];
+    gameHistory.forEach(element => $(element).show());
     $("#makeGuess").text("Guess");
     $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
+    $('#rollDice').data('firstRoll', true);
 }
 
 function gameSetup() {
-    const showOnStart = ['#diceRolls', '#gameProgress', '#gameControl',
+    const showOnStart = ['#diceRolls', '#gameProgress',
         '#gameHelp', '#gameProgress', '#gameControl', '#gameHelp'];
     const hideOnStart = ['#startImage', '#gameSuccess', '#startGame', '#gameHint', '#gameNonSuccess', '#gameInstructions'];
     showOnStart.forEach(element => $(element).show());
@@ -81,6 +84,19 @@ function roll() {
             $('#firstRollAnswer').text("✨  " + document.answer + "  ✨");
             $('#rollHistory').append(rollHistory + "<br>");
             $('#numDotsHistory').append(data.calculation + "<br>");
+
+            const attr = $('#rollDice').data('firstRoll');
+            console.log(attr)
+            if (typeof attr !== 'undefined' && attr !== false) {
+                $('#rollDice').data('firstRoll', false);
+                $('#rollDice').removeClass('disabled');
+                $('#rollDice').addClass('enabled');
+                $('#rollDice').focus();
+                $('#guessHistory').append(" - <br>");
+                $('#help').removeClass('disabled');
+                $('#help').addClass('enabled');
+            }
+
         }, 2500);
 
     })
@@ -91,11 +107,10 @@ function roll() {
 }
 
 $( "#rollDice" ).click(function() {
-    if ($(this).hasClass('disabled')) {
-        return false;
-    }
+    if ($(this).hasClass('disabled')) { return false; }
     $('#rollDice').removeClass('enabled');
     $('#rollDice').addClass('disabled');
+
     roll();
 
     $('#dotGuess').css("border-color", "#ced4da");
@@ -106,6 +121,9 @@ $( "#rollDice" ).click(function() {
     $('#makeGuess').addClass('enabled');
     $("#makeGuess").text("Guess");
     $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
+
+    $("#firstRoll").hide();
+
 });
 
 
@@ -146,7 +164,6 @@ $( "#makeGuess" ).click(function() {
               $('#gameSuccess').show();
               $("#startGame").text("Play again");
               $("#startGame").show();
-              $('#startGame').focus();
            }
         } else {
             newProgress = 0;
@@ -158,7 +175,6 @@ $( "#makeGuess" ).click(function() {
             $('#makeGuess').attr('style', 'background-color: #FF5757 !important; border-color: #FF5757 !important');
         }
     } else {
-
         alert( "Submit an integer in the range (-∞, ∞)" );
         $('#dotGuess').css("border-color", "#FF5757");
         $('#dotGuess').focus();
@@ -255,6 +271,5 @@ $('#closeFirstRoll').click(function() {
     disableGuessControl();
     const showAfterFirstRoll = ['#gameInfo', '#gameHistory', '#gameGuess'];
     showAfterFirstRoll.forEach(element => $(element).show());
-    $('#guessHistory').append(" - <br>");
     $('#rollDice').focus();
 })

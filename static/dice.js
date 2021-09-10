@@ -3,23 +3,30 @@
 // get guess value, ask server if answer is correct
 // update line colour on text input, disable guess button + change dice image
 
+document.answer = null;
+
+
 $(document).ready(function() {
     const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
-        '#gameNonSuccess', '#gameProgress', '#gameControl', '#gameHelp'];
+        '#gameNonSuccess', '#gameProgress', '#gameControl', '#gameHelp', '#firstRoll'];
     elements.forEach(element => $(element).hide());
+    $('#dotGuess').val('');
 });
 
 function startGame() {
+    disableGameControl();
     gameSetup();
-    enableGameControl();
     emptyHistory();
     roll();
+    $('#firstRoll').show();
+    $("#makeGuess").text("Guess");
+    $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
 }
 
 function gameSetup() {
-    const showOnStart = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameProgress', '#gameControl',
+    const showOnStart = ['#diceRolls', '#gameProgress', '#gameControl',
         '#gameHelp', '#gameProgress', '#gameControl', '#gameHelp'];
-    const hideOnStart = ['#startImage', '#gameSuccess', '#startGame', '#gameHint', '#gameNonSuccess'];
+    const hideOnStart = ['#startImage', '#gameSuccess', '#startGame', '#gameHint', '#gameNonSuccess', '#gameInstructions'];
     showOnStart.forEach(element => $(element).show());
     hideOnStart.forEach(element => $(element).hide());
 
@@ -33,15 +40,64 @@ function gameSetup() {
 function emptyHistory() {
     const elementsToReset = ['#numDotsHistory', '#rollHistory', '#guessHistory'];
     elementsToReset.forEach(element => $(element).empty());
+    const gameHistory = ['#gameInfo', '#gameHistory', '#gameGuess'];
+    gameHistory.forEach(element => $(element).hide());
 }
+
+
 
 function roll() {
     $.get( "/roll", function(data) {})
     .done(function(data) {
-        let rollHistory = "| "
-        data.roll.forEach(dice => rollHistory += dice + " | ");
-        $('#rollHistory').append(rollHistory + "<br>");
-        $('#numDotsHistory').append(data.translation + "<br>");
+
+        console.log("Roll: " + data.roll);
+        console.log("Type: " + typeof(data.roll));
+        console.log("Answer: " + document.answer);
+        console.log("Type: " + typeof(document.answer));
+
+        document.answer = data.translation;
+
+        const integerMapping = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"};
+        let rollHistory = ""
+        data.roll.forEach((dice, index) => {
+            rollHistory += "<i class='fas fa-dice-" + integerMapping[dice] + " fa-lg'></i> ";
+            const imageElement = "#dice-" + index;
+            const imageSrc = "/static/dice/white_" + dice + ".png";
+            $(imageElement).attr("src", imageSrc);
+
+            if (dice%2 === 0) {
+                var $elie = $(imageElement), degree = 360, timer;
+                function rotateAntiClockwise() {
+                    $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+                    $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+                    if (degree > 0) {
+                        timer = setTimeout(function() {
+                            --degree; rotateAntiClockwise();
+                        },5);
+                    }
+                } rotateAntiClockwise();
+            } else {
+                var $elie = $(imageElement), degree = 0, timer;
+                function rotateClockwise() {
+                    $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+                    $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+                    if (degree < 360) {
+                        timer = setTimeout(function() {
+                            ++degree; rotateClockwise();
+                        },5);
+                    }
+                } rotateClockwise();
+            }
+
+        });
+
+        setTimeout(function() {
+            $('#firstRollAnswer').text("✨  " + document.answer + "  ✨");
+            $('#rollHistory').append(rollHistory + "<br>");
+            $('#numDotsHistory').append(data.translation + "<br>");
+        }, 2500);
+
+
     })
     .fail(function(data) {
         console.log(data)
@@ -53,23 +109,32 @@ $( "#rollDice" ).click(function() {
     if ($(this).hasClass('disabled')) {
         return false;
     }
+    $('#rollDice').removeClass('enabled');
     $('#rollDice').addClass('disabled');
     roll();
+
+    $('#dotGuess').css("border-color", "#ced4da");
+    $('#dotGuess').prop('readonly', false);
+    $('#dotGuess').focus();
+
     $('#makeGuess').removeClass('disabled');
     $('#makeGuess').addClass('enabled');
+    $("#makeGuess").text("Guess");
+    $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
+
 });
 
 
 $( "#startGame" ).click(function() {
-  startGame();
+    startGame();
+    $('#firstRollAnswer').text("");
 });
 
+// Check if guess is correct or not
 $( "#makeGuess" ).click(function() {
 
-    // Allow only one guess per roll
-    if ($(this).hasClass('disabled')) {
-        return false;
-    }
+    // Allow one guess per roll
+    if ($(this).hasClass('disabled')) { return false; }
 
     const answer = 42;
     let newProgress;
@@ -83,13 +148,20 @@ $( "#makeGuess" ).click(function() {
 
         $('#rollDice').removeClass('disabled');
         $('#rollDice').addClass('enabled');
+        $('#dotGuess').prop('readonly', true);
+
+        $('#rollDice').focus();
 
         $('#guessHistory').append(guess + "<br>");
-        if (parseInt(guess) === answer) {
+        // document.answer - every roll, save document.answer
+        if (parseInt(guess) === document.answer) {
            let currentProgress = $('#gameProgressBar').attr('aria-valuenow');
            newProgress = parseInt(currentProgress) + 25;
            $('#gameProgressBar').attr('aria-valuenow', newProgress).css('width', newProgress+'%');
            $('#dotGuess').css("border-color", "#7ED957");
+
+           $("#makeGuess").text("Correct");
+           $('#makeGuess').attr('style', 'background-color: #7ED957 !important; border-color: #7ED957 !important;');
 
            if (newProgress === 100) {
               $('#gameProgressBar').removeClass("bg-info");
@@ -97,19 +169,24 @@ $( "#makeGuess" ).click(function() {
               $('#gameSuccess').show();
               $("#startGame").text("Play again");
               $("#startGame").show();
+              $('#startGame').focus();
            }
         } else {
-            console.log( "You guessed: " + guess + ". That was not correct. Try again!" );
             newProgress = 0;
             $('#gameProgressBar').attr('aria-valuenow', newProgress).css('width', newProgress+'%');
             $('#gameProgressBar').removeClass("bg-success");
             $('#gameProgressBar').addClass("bg-info");
             $('#dotGuess').css("border-color", "#FF5757");
+
+            $("#makeGuess").text("Wrong");
+            $('#makeGuess').attr('style', 'background-color: #FF5757 !important; border-color: #FF5757 !important');
+
         }
 
     } else {
         alert( "Submit an integer in the range (-∞, ∞)" );
-        $('#dotGuess').css("border-color", "#FF5757")
+        $('#dotGuess').css("border-color", "#FF5757");
+        $('#dotGuess').focus();
     }
     $( "#dotGuess" ).val('');
 
@@ -141,11 +218,23 @@ function disableGameControl() {
     $('#help').removeClass('enabled');
 }
 
+
+function disableGuessControl() {
+    $('#dotGuess').prop('readonly', true);
+    $('#makeGuess').addClass('disabled');
+    $('#makeGuess').removeClass('enabled');
+}
+
+
 function endGame() {
     gameSetup();
     $("#startGame").show();
     $("#startGame").text('Play again');
     disableGameControl();
+    $("#makeGuess").text("Guess");
+    $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
+    $("#firstRollAnswer").text("");
+
 }
 
 // Show hint
@@ -186,4 +275,16 @@ $('#closeInstructions').click(function() {
 // Close game success
 $('#closeGameSuccess').click(function() {
    $('#gameSuccess').hide();
+})
+
+// Close first roll
+$('#closeFirstRoll').click(function() {
+
+    $('#firstRoll').hide();
+    enableGameControl();
+    disableGuessControl();
+    const showAfterFirstRoll = ['#gameInfo', '#gameHistory', '#gameGuess'];
+    showAfterFirstRoll.forEach(element => $(element).show());
+    $('#guessHistory').append(" - <br>");
+    $('#rollDice').focus();
 })

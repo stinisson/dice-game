@@ -5,10 +5,6 @@ body {
   color: #444;
 }
 
-.btn-info {
-    background-color: #862525 !important;
-}
-
 h1.title {
     font-weight: 900;
     font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -71,4 +67,43 @@ h1.title {
 
 #gameProgressBar.bg-success {
     background-color: #7ED957 !important;
+}
+
+
+.fade_rule {
+        height: 2px;
+        background-color: #E6E6E6;
+        width: 66.0em;
+        margin: 0 auto;
+        background-image: linear-gradient(left , #E916FFFF 2%, #03FCFFFF 50%, #E916FFFF 98%);
+        background-image: -o-linear-gradient(left , #E916FFFF 2%, #03FCFFFF 50%, #E916FFFF 98%);
+        background-image: -moz-linear-gradient(left , #E916FFFF 2%, #03FCFFFF 50%, #E916FFFF 98%);
+        background-image: -webkit-linear-gradient(left , #E916FFFF 2%, #03FCFFFF 50%, #E916FFFF 98%);
+        background-image: -ms-linear-gradient(left , #E916FFFF 2%, #03FCFFFF 50%, #E916FFFF 98%);
+        background-image: -webkit-gradient( linear, left bottom, right bottom, color-stop(0.02, #e916ff), color-stop(0.5, #7f80ff), color-stop(0.98, #03fcff) );
+}
+
+
+.fade_rule2 {
+        height: 1px;
+        background-image: -webkit-gradient( linear, left bottom, right bottom, color-stop(0.02, #e916ff), color-stop(0.5, #7f80ff), color-stop(0.98, #03fcff) );
+}
+
+.fade_rule3 {
+        height: 2px;
+        background-color: #E6E6E6;
+        background-image: linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -o-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -moz-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -webkit-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -ms-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -webkit-gradient( linear, left bottom, right bottom, color-stop(0.02, white), color-stop(0.5, gray), color-stop(0.98, white) );
+}
+
+.fade_rule {
+    height: 3px;
+    background: #e916ff;
+    background: -moz-linear-gradient(left, rgba(233, 22, 255, 0) 0%, rgb(233, 22, 255) 20%, rgb(127, 128, 255) 50%, rgba(3, 252, 255, 255) 80%, rgba(233, 22, 255, 0) 100%);
+    background: -webkit-linear-gradient(left, rgba(233, 22, 255, 0) 0%, rgb(233, 22, 255) 20%, rgb(127, 128, 255) 50%, rgba(3, 252, 255, 255) 80%, rgba(233, 22, 255, 0) 100%);
+    background: linear-gradient(to right, rgba(233, 22, 255, 0) 0%, rgb(233, 22, 255) 20%, rgb(127, 128, 255) 50%, rgba(3, 252, 255, 255) 80%, rgba(233, 22, 255, 0) 100%);
 }

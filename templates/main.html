@@ -18,7 +18,6 @@
 
         <div class="fade_rule mb-5 mt-0 col-12"></div>
 
-
         <img id="startImage" class="img-fluid" src="/static/dice/dice.png" alt="dice">
 
         <div id="diceRolls" class="row mb-5">
@@ -42,14 +41,18 @@
             </div>
         </div>
 
+        <div class="row mb-2">
+            <div id="gameInstructions" class="col-12">
 
-        <div id="gameInstructions" class="alert alert-warning alert-dismissible fade show mt-5 mb-2" role="alert">
-            <strong>Dice, dice, baby dice!</strong> Roll the dice and try to figure out the rule by which the total
-            number of dots is calculated. In order to finish the game you need to submit the correct answer for four
-            consecutive dice rolls. Use the notepad to make notes during the session and formulate your answer.
-            <button id="closeInstructions" type="button" class="close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <div class="alert alert-warning alert-dismissible fade show mt-5 mb-2" role="alert">
+                    <strong>Dice, dice, baby dice!</strong> Roll the dice and try to figure out the rule by which the total
+                    number of dots is calculated. In order to finish the game you need to submit the correct answer for four
+                    consecutive dice rolls. Use the notepad to make notes during the session and formulate your answer.
+                    <button id="closeInstructions" type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="row mb-2">
@@ -57,7 +60,7 @@
                 <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
                     <h5 class="mt-2">The secret rule says that the total number of dots for this roll is:</h5><hr><br>
                     <h3 id="firstRollAnswer" class="mb-5"></h3>
-                    Close this window to proceed. Good luck!
+                    Roll the dice! Good luck!
                     <button id="closeFirstRoll" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -72,7 +75,8 @@
                     <p>You managed to crack the secret rule! Great job! Remember that sometimes the road is the goal.
                         Stay curious, stay observant. </p>
                     <hr>
-                    <h5 class="text-center"><strong>Solution: </strong>Multiply the number of dots by 2</h5>
+                    <h5 class="text-center"><strong>Petals around the rose </strong></h5>
+                    <h5 class="text-center">For every head with a petal - exclude the head and calculate the sum of the petals</h5>
                     <button id="closeGameSuccess" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -94,11 +98,12 @@
         <div class="row mb-2">
             <div id="gameNonSuccess" class="col-12">
                 <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                    <h4 class="alert-heading">Uh-uh! :(</h4>
-                    <p>Sometimes the road is more important than the goal and you probably learnt a lot.
-                        Remember to stay curious and question everything (especially this answer).</p>
+                    <h4 class="alert-heading">Uh-uh! 🙁</h4>
+                    <h5 class="text-center"><strong>Petals around the rose </strong></h5>
+                    <h5 class="text-center">For every head with a petal - exclude the head and calculate the sum of the petals.</h5>
                     <hr>
-                    <h5 class="text-center"><strong>Solution: </strong>Multiply the number of dots by 2</h5>
+                    <p>Sometimes the road is more important than the goal, and you probably learned a lot.
+                        Remember to stay curious and question everything (especially this answer).</p>
                     <button id="closeSolution" type="button" class="close"aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -106,7 +111,7 @@
             </div>
         </div>
 
-        <div class="row mt-5 mb-5">
+        <div class="row mb-5">
             <div class="col-12">
                 <button id="startGame" class="btn btn-success btn-block" type="submit">Start game</button>
             </div>
@@ -141,13 +146,10 @@
                  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
 
-
         <div id="gameControl" class="row mb-5">
-
             <div class="col-3">
                 <button id="rollDice" class="btn btn-dark btn-block">Roll dice</button>
             </div>
-
             <div class="input-group col-6">
                 <input id="dotGuess" type="number" class="form-control" placeholder="Num. dots">
                 <div class="input-group-append">
@@ -166,19 +168,14 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-
-
 
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Notepad</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" spellcheck="false"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" spellcheck="false"></textarea>
         </div>
 
     </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"

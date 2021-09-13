@@ -1,4 +1,6 @@
 document.answer = null;
+document.rule = null;
+document.hint = null;
 
 $(document).ready(function() {
     const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
@@ -8,17 +10,46 @@ $(document).ready(function() {
 });
 
 function startGame() {
+    get_rule();
     disableGameControl();
     gameSetup();
     emptyHistory();
-    roll();
-    $('#firstRoll').show();
-    const gameHistory = ['#gameInfo', '#gameHistory', '#gameGuess'];
-    gameHistory.forEach(element => $(element).show());
-    $("#makeGuess").text("Guess");
-    $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
-    $('#rollDice').data('firstRoll', true);
+
 }
+
+function get_rule() {
+    $.get("/get-rule", function (data) {})
+        .done(function (data) {
+
+            document.rule = data.rule;
+            document.hint = data.hint;
+            document.explanation = data.explanation;
+
+
+            console.log("THIS NEW RULE: " + document.rule);
+            console.log("THIS NEW HINT: " + document.hint);
+            console.log("THIS NEW EXPLANATION: " + document.explanation);
+
+            $("#ruleSuccess").text(document.rule);
+            $("#ruleExplanationSuccess").text(document.explanation);
+            $("#ruleNonSuccess").text(document.rule);
+            $("#ruleExplanationNonSuccess").text(document.explanation);
+            $("#ruleHint").text(document.hint);
+
+            roll();
+            $('#firstRoll').show();
+            const gameHistory = ['#gameInfo', '#gameHistory', '#gameGuess'];
+            gameHistory.forEach(element => $(element).show());
+            $("#makeGuess").text("Guess");
+            $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
+            $('#rollDice').data('firstRoll', true);
+
+        })
+        .fail(function (data) {
+            alert("Error while contacting the server");
+        });
+    }
+
 
 function gameSetup() {
     const showOnStart = ['#diceRolls', '#gameProgress',
@@ -42,8 +73,9 @@ function emptyHistory() {
 
 
 function roll() {
-    $.get( "/roll", function(data) {})
+    $.get( "/roll", {"rule": document.rule}, function(data) {})
     .done(function(data) {
+        // Handle if data is None
         document.answer = data.calculation;
         const integerMapping = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"};
         let rollHistory = ""
@@ -83,11 +115,10 @@ function roll() {
         setTimeout(function() {
             $('#firstRollAnswer').text("✨  " + document.answer + "  ✨");
             $('#rollHistory').append(rollHistory + "<br>");
-            $('#numDotsHistory').append(data.calculation + "<br>");
 
             const attr = $('#rollDice').data('firstRoll');
-            console.log(attr)
             if (typeof attr !== 'undefined' && attr !== false) {
+                $('#numDotsHistory').append(document.answer + "<br>");
                 $('#rollDice').data('firstRoll', false);
                 $('#rollDice').removeClass('disabled');
                 $('#rollDice').addClass('enabled');
@@ -101,7 +132,6 @@ function roll() {
 
     })
     .fail(function(data) {
-        console.log(data)
         alert( "Error while contacting the server");
     });
 }
@@ -150,6 +180,8 @@ $( "#makeGuess" ).click(function() {
         $('#rollDice').focus();
 
         $('#guessHistory').append(guess + "<br>");
+        $('#numDotsHistory').append(document.answer + "<br>");
+
         if (parseInt(guess) === document.answer) {
            let currentProgress = $('#gameProgressBar').attr('aria-valuenow');
            newProgress = parseInt(currentProgress) + 25;

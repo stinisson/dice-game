@@ -107,3 +107,7 @@ h1.title {
     background: -webkit-linear-gradient(left, rgba(233, 22, 255, 0) 0%, rgb(233, 22, 255) 20%, rgb(127, 128, 255) 50%, rgba(3, 252, 255, 255) 80%, rgba(233, 22, 255, 0) 100%);
     background: linear-gradient(to right, rgba(233, 22, 255, 0) 0%, rgb(233, 22, 255) 20%, rgb(127, 128, 255) 50%, rgba(3, 252, 255, 255) 80%, rgba(233, 22, 255, 0) 100%);
 }
+
+a {
+    color: #7F80FFFF !important;
+}

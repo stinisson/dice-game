@@ -14,6 +14,9 @@ def main():
 
 @app.route('/get-rule')
 def get_rule():
+    """
+    Return a randomly selected game rule with hint and an explanation of the rule. 
+    """
     rules = {"Petals Around the Rose": ["The name of the game is Petals Around the Rose.", "For every head with a petal - exclude the head and calculate the sum of the petals."],
              "Multiply by two": ["The whole is (not) more important than the sum of its parts.", "Calculate the sum of the dice heads and multiply by two."],
              "Only count colored": ["Don't judge a book by its cover. Or, well. Please do.", "Calculate the sum of the colored dice heads."]}
@@ -60,8 +63,10 @@ def only_colored(roll, colors):
 
 @app.route('/roll')
 def generate_roll():
-    """ Simulate a dice roll. Return dice color and value for 6 dice together with the total number of dots
-        according to the secret rule. """
+    """
+    Simulate a dice roll. Return dice color and value for 6 dice together with the total number of dots
+    according to the secret rule.
+    """
 
     num_dice = 6
     dice_colors = ["white", "blue", "pink"]
@@ -69,7 +74,6 @@ def generate_roll():
     roll = [random.randint(1, 6) for i in range(num_dice)]
 
     rule = request.args.get('rule')
-    print("The rule is: ", rule)
 
     if rule == "Petals Around the Rose":
         calculation = petals(roll)

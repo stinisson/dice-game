@@ -25,11 +25,6 @@ function get_rule() {
             document.hint = data.hint;
             document.explanation = data.explanation;
 
-
-            console.log("THIS NEW RULE: " + document.rule);
-            console.log("THIS NEW HINT: " + document.hint);
-            console.log("THIS NEW EXPLANATION: " + document.explanation);
-
             $("#ruleSuccess").text(document.rule);
             $("#ruleExplanationSuccess").text(document.explanation);
             $("#ruleNonSuccess").text(document.rule);
@@ -153,7 +148,6 @@ $( "#rollDice" ).click(function() {
     $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
 
     $("#firstRoll").hide();
-
 });
 
 
@@ -162,15 +156,26 @@ $( "#startGame" ).click(function() {
     $('#firstRollAnswer').text("");
 });
 
-// Check if guess is correct or not
+function parseGuess(guess_input) {
+    let isInt = !isNaN(guess_input) && (function(x) { return (x | 0) === x; }) (parseFloat(guess_input));
+    if (isInt) {
+        let guess = parseInt(guess_input);
+        if (guess >= -46656 && guess <= 46656) {
+            return guess
+        }
+    }
+    return "invalid";
+}
+
+// Check if user guess is correct or not
 $( "#makeGuess" ).click(function() {
 
     // Allow one guess per roll
     if ($(this).hasClass('disabled')) { return false; }
 
     let newProgress;
-    let guess = parseInt($("#dotGuess").val());
-    if (!isNaN(guess)) {
+    let guess = parseGuess($("#dotGuess").val());
+    if (guess !== "invalid") {
 
         $(this).addClass('disabled'); // Disable button after valid guess
 
@@ -182,7 +187,7 @@ $( "#makeGuess" ).click(function() {
         $('#guessHistory').append(guess + "<br>");
         $('#numDotsHistory').append(document.answer + "<br>");
 
-        if (parseInt(guess) === document.answer) {
+        if (guess === document.answer) {
            let currentProgress = $('#gameProgressBar').attr('aria-valuenow');
            newProgress = parseInt(currentProgress) + 25;
            $('#gameProgressBar').attr('aria-valuenow', newProgress).css('width', newProgress+'%');
@@ -207,7 +212,7 @@ $( "#makeGuess" ).click(function() {
             $('#makeGuess').attr('style', 'background-color: #FF5757 !important; border-color: #FF5757 !important');
         }
     } else {
-        alert( "Submit an integer in the range (-∞, ∞)" );
+        alert( "Submit an integer in the range [-46656, 46656]" );
         $('#dotGuess').css("border-color", "#FF5757");
         $('#dotGuess').focus();
     }
@@ -305,3 +310,7 @@ $('#closeFirstRoll').click(function() {
     showAfterFirstRoll.forEach(element => $(element).show());
     $('#rollDice').focus();
 })
+
+if (typeof module  !== "undefined") {
+    module.exports = parseGuess;
+}

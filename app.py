@@ -15,7 +15,7 @@ def main():
 @app.route('/get-rule')
 def get_rule():
     """
-    Return a randomly selected game rule with hint and an explanation of the rule. 
+    Return a randomly selected game rule with hint and an explanation of the rule.
     """
     rules = {"Petals Around the Rose": ["The name of the game is Petals Around the Rose.", "For every head with a petal - exclude the head and calculate the sum of the petals."],
              "Multiply by two": ["The whole is (not) more important than the sum of its parts.", "Calculate the sum of the dice heads and multiply by two."],

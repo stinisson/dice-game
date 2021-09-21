@@ -1,3 +1,4 @@
+
 document.answer = null;
 document.rule = null;
 document.hint = null;

@@ -1,3 +1,4 @@
+
 function parseGuess(guess_input) {
     let isInt = !isNaN(guess_input) && (function(x) { return (x | 0) === x; }) (parseFloat(guess_input));
     if (isInt) {
@@ -9,7 +10,7 @@ function parseGuess(guess_input) {
     return "invalid";
 }
 
-// module is not defined when running jest tests
 if (typeof module  !== "undefined") {
+    // export when running jest tests
     module.exports = parseGuess;
 }

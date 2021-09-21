@@ -1,5 +1,7 @@
+
 const naughtyList = require('./naughty_list.js');
 const parseGuess = require('../static/dice_parse_guess.js');
+
 
 test.each(naughtyList.naughtyList)(
   '.parseGuess(%s) ',

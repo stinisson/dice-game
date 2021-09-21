@@ -1,20 +1,20 @@
 const naughtyList = require('./naughty_list.js');
-const parseGuess = require('../static/dice.js');
+const parseGuess = require('../static/dice_parse_guess.js');
 
 test.each(naughtyList.naughtyList)(
   '.parseGuess(%s) ',
   (naughtyword) => {
-    expect(parseGuess(naughtyword)).toBe(false);
+    expect(parseGuess(naughtyword)).toBe("invalid");
   },
 );
 
 test('Bad user input', () => {
-  expect(parseGuess("abc")).toBe(false);
+  expect(parseGuess("abc")).toBe("invalid");
 });
 
 test('Outside range', () => {
-  expect(parseGuess("-46657")).toBe(false);
-  expect(parseGuess("46657")).toBe(false);
+  expect(parseGuess("-46657")).toBe("invalid");
+  expect(parseGuess("46657")).toBe("invalid");
 });
 
 

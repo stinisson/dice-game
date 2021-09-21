@@ -45,6 +45,7 @@
   "0xffffffff", 
   "0xffffffffffffffff", 
   "0xabad1dea", 
+  "Roses are \u001b[0;31mred\u001b[0m, violets are \u001b[0;34mblue. Hope you enjoy terminal hue", 
 */
 
 
@@ -509,8 +510,6 @@ const naughtyList = [
   "Dick Van Dyke", 
   "basement", 
   "If you're reading this, you've been in a coma for almost 20 years now. We're trying a new technique. We don't know where this message will end up in your dream, but we hope it works. Please wake up, we miss you.", 
-  "Roses are \u001b[0;31mred\u001b[0m, violets are \u001b[0;34mblue. Hope you enjoy terminal hue", 
- 
   "Powerلُلُصّبُلُلصّبُررً ॣ ॣh ॣ ॣ冗", 
   "🏳0🌈️",
   "జ్ఞ‌ా",

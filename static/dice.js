@@ -1,15 +1,12 @@
-// document is not defined when running jest tests
-if (typeof document  !== "undefined") {
-    document.answer = null;
-    document.rule = null;
-    document.hint = null;
-    $(document).ready(function() {
-        const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
-            '#gameNonSuccess', '#gameProgress', '#gameControl', '#gameHelp', '#firstRoll'];
-        elements.forEach(element => $(element).hide());
-        $('#dotGuess').val('');
-    });
-}
+document.answer = null;
+document.rule = null;
+document.hint = null;
+$(document).ready(function() {
+    const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
+        '#gameNonSuccess', '#gameProgress', '#gameControl', '#gameHelp', '#firstRoll'];
+    elements.forEach(element => $(element).hide());
+    $('#dotGuess').val('');
+});
 
 function startGame() {
     get_rule();
@@ -146,17 +143,6 @@ $( "#startGame" ).click(function() {
     startGame();
     $('#firstRollAnswer').text("");
 });
-
-function parseGuess(guess_input) {
-    let isInt = !isNaN(guess_input) && (function(x) { return (x | 0) === x; }) (parseFloat(guess_input));
-    if (isInt) {
-        let guess = parseInt(guess_input);
-        if (guess >= -46656 && guess <= 46656) {
-            return guess
-        }
-    }
-    return "invalid";
-}
 
 // Check if user guess is correct or not
 $( "#makeGuess" ).click(function() {
@@ -301,8 +287,3 @@ $('#closeFirstRoll').click(function() {
     showAfterFirstRoll.forEach(element => $(element).show());
     $('#rollDice').focus();
 })
-
-// module is not defined when running jest tests
-if (typeof module  !== "undefined") {
-    module.exports = parseGuess;
-}

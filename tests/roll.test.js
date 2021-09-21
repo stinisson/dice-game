@@ -2,7 +2,7 @@ const naughtyList = require('./naughty_list.js');
 const parseGuess = require('../static/dice.js');
 
 test.each(naughtyList.naughtyList)(
-  '.checkRoll(%s) ',
+  '.parseGuess(%s) ',
   (naughtyword) => {
     expect(parseGuess(naughtyword)).toBe(false);
   },

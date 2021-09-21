@@ -86,6 +86,5 @@ def generate_roll():
 
     return {"roll": roll, "colors": colors, "calculation": calculation}
 
-
 if __name__ == '__main__':
     app.run()

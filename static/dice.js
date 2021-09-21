@@ -1,26 +1,26 @@
-document.answer = null;
-document.rule = null;
-document.hint = null;
-
-$(document).ready(function() {
-    const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
-        '#gameNonSuccess', '#gameProgress', '#gameControl', '#gameHelp', '#firstRoll'];
-    elements.forEach(element => $(element).hide());
-    $('#dotGuess').val('');
-});
+// document is not defined when running jest tests
+if (typeof document  !== "undefined") {
+    document.answer = null;
+    document.rule = null;
+    document.hint = null;
+    $(document).ready(function() {
+        const elements = ['#diceRolls', '#gameInfo', '#gameHistory', '#gameGuess', '#gameSuccess', '#gameHint',
+            '#gameNonSuccess', '#gameProgress', '#gameControl', '#gameHelp', '#firstRoll'];
+        elements.forEach(element => $(element).hide());
+        $('#dotGuess').val('');
+    });
+}
 
 function startGame() {
     get_rule();
     disableGameControl();
     gameSetup();
     emptyHistory();
-
 }
 
 function get_rule() {
     $.get("/get-rule", function (data) {})
         .done(function (data) {
-
             document.rule = data.rule;
             document.hint = data.hint;
             document.explanation = data.explanation;
@@ -38,7 +38,6 @@ function get_rule() {
             $("#makeGuess").text("Guess");
             $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
             $('#rollDice').data('firstRoll', true);
-
         })
         .fail(function (data) {
             alert("Error while contacting the server");
@@ -65,7 +64,6 @@ function emptyHistory() {
     const gameHistory = ['#gameInfo', '#gameHistory', '#gameGuess'];
     gameHistory.forEach(element => $(element).hide());
 }
-
 
 function roll() {
     $.get( "/roll", {"rule": document.rule}, function(data) {})
@@ -106,7 +104,6 @@ function roll() {
                 } rotateClockwise();
             }
         });
-
         setTimeout(function() {
             $('#firstRollAnswer').text("✨  " + document.answer + "  ✨");
             $('#rollHistory').append(rollHistory + "<br>");
@@ -124,7 +121,6 @@ function roll() {
             }
 
         }, 2500);
-
     })
     .fail(function(data) {
         alert( "Error while contacting the server");
@@ -135,21 +131,16 @@ $( "#rollDice" ).click(function() {
     if ($(this).hasClass('disabled')) { return false; }
     $('#rollDice').removeClass('enabled');
     $('#rollDice').addClass('disabled');
-
     roll();
-
     $('#dotGuess').css("border-color", "#ced4da");
     $('#dotGuess').prop('readonly', false);
     $('#dotGuess').focus();
-
     $('#makeGuess').removeClass('disabled');
     $('#makeGuess').addClass('enabled');
     $("#makeGuess").text("Guess");
     $('#makeGuess').attr('style', 'background-color: #7B84FF !important; border-color: #4752e5 !important');
-
     $("#firstRoll").hide();
 });
-
 
 $( "#startGame" ).click(function() {
     startGame();
@@ -311,6 +302,7 @@ $('#closeFirstRoll').click(function() {
     $('#rollDice').focus();
 })
 
+// module is not defined when running jest tests
 if (typeof module  !== "undefined") {
     module.exports = parseGuess;
 }

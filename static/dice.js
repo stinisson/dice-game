@@ -85,8 +85,8 @@ function roll() {
                     $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
                     if (degree > 0) {
                         timer = setTimeout(function() {
-                            --degree; rotateAntiClockwise();
-                        },5);
+                            degree -= 4; rotateAntiClockwise();
+                        },20);
                     }
                 } rotateAntiClockwise();
             } else {
@@ -96,8 +96,8 @@ function roll() {
                     $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
                     if (degree < 360) {
                         timer = setTimeout(function() {
-                            ++degree; rotateClockwise();
-                        },5);
+                            degree += 4; rotateClockwise();
+                        },20);
                     }
                 } rotateClockwise();
             }
